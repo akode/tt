@@ -6,6 +6,6 @@ If given a link to a paper, the tool will attempt to extract the title, the abst
 
 
 ## Resources
-[Terminal completions example](https://github.com/kbknapp/grab-xkcd/tree/completions-rt)
-[Askama Book](https://djc.github.io/askama/askama.html)
-[Clap Docs](https://docs.rs/clap/latest/clap/index.html)
+- [Terminal completions example](https://github.com/kbknapp/grab-xkcd/tree/completions-rt)
+- [Askama Book](https://djc.github.io/askama/askama.html)
+- [Clap Docs](https://docs.rs/clap/latest/clap/index.html)

@@ -19,8 +19,7 @@ pub struct PaperInfo {
 
 impl PaperInfo {
     pub fn pdf_file_name(&self) -> PathBuf {
-        let re = Regex::new(r"[ :]+").unwrap();
-        let sanitized_title = re.replace_all(&self.title, "_");
+        let sanitized_title = &self.sanitized_title().replace(" ", "_");
         match self.year {
             Some(year) => PathBuf::from(format!("{}_{}.pdf", year, sanitized_title)),
             None => PathBuf::from(format!("{}.pdf", sanitized_title)),
@@ -33,7 +32,7 @@ impl PaperInfo {
 
     fn sanitized_title(&self) -> String {
         let re = Regex::new(r"[ :]+").unwrap();
-        re.replace_all(&self.title, "_").to_string()
+        re.replace_all(&self.title, " ").to_string()
     }
 }
 
