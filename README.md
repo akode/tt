@@ -4,6 +4,10 @@
 
 If given a link to a paper, the tool will attempt to extract the title, the abstract and the authors and the publication year. If it is successful, it will then display the information in a Markdown template.
 
+## Build and install from this repo
+
+`cargo install --path .`
+
 
 ## Resources
 - [Terminal completions example](https://github.com/kbknapp/grab-xkcd/tree/completions-rt)

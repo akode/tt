@@ -1,5 +1,9 @@
 [package]
 name = "tt"
+authors = ["Andreas Kodewitz <andreas.kodewitz@gmail.com>"]
+description = "Terminal tools for my convenience"
+readme = "README.md"
+license = "GPL-2.0-or-later"
 version = "0.1.0"
 edition = "2021"
 

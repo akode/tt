@@ -33,7 +33,7 @@ impl ::std::default::Default for Config {
         Self {
             obsidian_vault_path: PathBuf::from("~/Documents/obs-notes"),
             obsidian_attachments_dir: PathBuf::from("attachments"),
-            obsidian_papers_dir: PathBuf::from("publications"),
+            obsidian_papers_dir: PathBuf::from("papers"),
         }
     }
 }
