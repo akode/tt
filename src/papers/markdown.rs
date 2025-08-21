@@ -1,4 +1,4 @@
-use crate::PaperInfo;
+use super::paper_info::PaperInfo;
 use askama::Template;
 
 #[derive(Template)]

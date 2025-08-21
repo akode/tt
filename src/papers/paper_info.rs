@@ -6,7 +6,7 @@ use scraper;
 use ureq;
 use url::Url;
 
-use crate::arxiv::ArxivPaper;
+use super::arxiv::ArxivPaper;
 
 #[derive(Debug)]
 pub struct PaperInfo {
