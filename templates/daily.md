@@ -1,0 +1,7 @@
+---
+date: {{ date }}
+---
+
+## Work
+
+## Home

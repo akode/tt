@@ -1,5 +1,6 @@
 mod cli;
 mod config;
+mod daily;
 mod errors;
 mod file_handling;
 mod pace;
@@ -9,6 +10,7 @@ use anyhow::Result;
 use clap::Parser;
 use config::Config;
 use confy;
+use daily::create_daily;
 use pace::Pace;
 use papers::store_paper;
 
@@ -28,6 +30,7 @@ fn main() -> Result<()> {
             let pace = Pace::from_str(pace_str.as_str())?;
             println!("{}", pace);
         }
+        cli::Commands::Daily {} => create_daily(),
     };
 
     Ok(())
