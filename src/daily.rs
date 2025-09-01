@@ -1,5 +1,4 @@
 use askama::Template;
-use chrono;
 use std::fs::File;
 use std::path::PathBuf;
 
@@ -9,6 +8,7 @@ struct DailyTemplate<'a> {
     date: &'a str,
 }
 
+/// Creates a daily note based on a template file.
 pub fn create_daily() {
     let today = chrono::Utc::now()
         .date_naive()

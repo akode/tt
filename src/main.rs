@@ -9,7 +9,6 @@ mod papers;
 use anyhow::Result;
 use clap::Parser;
 use config::Config;
-use confy;
 use daily::create_daily;
 use pace::Pace;
 use papers::store_paper;
@@ -23,7 +22,6 @@ fn main() -> Result<()> {
     );
     let cli = cli::Cli::parse();
 
-    //let paper_info: PaperInfo =
     match cli.cmd {
         cli::Commands::Paper { url, source } => store_paper(url, source, config)?,
         cli::Commands::Pace { pace_str } => {

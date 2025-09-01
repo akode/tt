@@ -1,12 +1,12 @@
 mod arxiv;
-mod paper_info;
 mod markdown;
+mod paper_info;
 
 use crate::{config::Config, file_handling::fetch_file};
 use anyhow::Result;
 use arxiv::ArxivPaper;
-use markdown::PaperTemplate;
 use askama::Template;
+use markdown::PaperTemplate;
 use paper_info::PaperInfo;
 use std::{fs::File, io::BufWriter};
 use url::Url;
@@ -18,13 +18,8 @@ pub enum PaperSource {
 
 fn determine_paper_source(url: &Url) -> Option<PaperSource> {
     match url.domain() {
-        Some(domain) => {
-            match domain {
-                "www.arxiv.org" => Some(PaperSource::Arxiv),
-                _ => None
-            }
-        }
-        _ => None
+        Some("www.arxiv.org") => Some(PaperSource::Arxiv),
+        _ => None,
     }
 }
 
@@ -32,9 +27,9 @@ pub fn store_paper(url: Url, source: Option<PaperSource>, config: Config) -> Res
     let paper_source: Option<PaperSource> = match (source, determine_paper_source(&url)) {
         (Some(source), _) => Some(source),
         (None, Some(source)) => Some(source),
-        (None, None) => None
+        (None, None) => None,
     };
-    
+
     let paper_info: Option<PaperInfo> = match paper_source {
         Some(PaperSource::Arxiv) => Some(ArxivPaper::from_url(&url).unwrap().into()),
         _ => None,
@@ -50,14 +45,14 @@ pub fn store_paper(url: Url, source: Option<PaperSource>, config: Config) -> Res
 
         let template = PaperTemplate::new(&paper_info, annotation_path.to_str().unwrap());
         // let markdown = template.render().unwrap();
-        
+
         // Write markdown file
         let markdown_path = config
-        .obsidian_papers_path()
-        .join(paper_info.md_file_name());
+            .obsidian_papers_path()
+            .join(paper_info.md_file_name());
         let markdown_path: &str = match markdown_path.to_str() {
-        None => anyhow::bail!("Can't create path"),
-        Some(p) => p,
+            None => anyhow::bail!("Can't create path"),
+            Some(p) => p,
         };
         println!("Writing markdown file to {}", markdown_path);
         let writer = File::create(markdown_path).unwrap();
@@ -70,5 +65,3 @@ pub fn store_paper(url: Url, source: Option<PaperSource>, config: Config) -> Res
 
     Ok(())
 }
-
-

@@ -2,8 +2,6 @@ use std::path::{Path, PathBuf};
 
 use anyhow::{Context, Result};
 use regex::Regex;
-use scraper;
-use ureq;
 use url::Url;
 
 use super::arxiv::ArxivPaper;

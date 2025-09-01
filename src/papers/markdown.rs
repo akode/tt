@@ -18,7 +18,7 @@ impl<'a> PaperTemplate<'a> {
             title: &paper_info.title,
             authors: &paper_info.authors,
             summary: &paper_info.summary,
-            pdf_path: pdf_path,
+            pdf_path,
             pdf_link: paper_info.pdf_link.to_string(),
             year: &paper_info.year,
         }
