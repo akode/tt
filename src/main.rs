@@ -1,6 +1,7 @@
 mod cli;
 mod config;
 mod daily;
+mod env;
 mod errors;
 mod file_handling;
 mod pace;
@@ -23,13 +24,14 @@ fn main() -> Result<()> {
     let cli = cli::Cli::parse();
 
     match cli.cmd {
-        cli::Commands::Paper { url, source } => store_paper(url, source, config)?,
+        cli::Commands::Paper { url, source } => store_paper(url, source, config),
         cli::Commands::Pace { pace_str } => {
-            let pace = Pace::from_str(pace_str.as_str())?;
-            println!("{}", pace);
+            let pace = Pace::from_str(pace_str.as_str());
+            println!("{}", &pace?);
+            Ok(())
         }
         cli::Commands::Daily {} => create_daily(),
-    };
-
-    Ok(())
+        cli::Commands::CopilotToken {} => env::export_copilot_token(),
+        cli::Commands::SumDaily { md_file } => daily::sum_time_slots(md_file),
+    }
 }

@@ -1,3 +1,5 @@
+use std::path::PathBuf;
+
 use clap::{Parser, Subcommand};
 use url::Url;
 
@@ -23,4 +25,11 @@ pub enum Commands {
     Pace { pace_str: String },
     /// Create a new daily note
     Daily {},
+    /// Sum hours from daily note
+    SumDaily {
+        #[arg(long)]
+        md_file: PathBuf,
+    },
+    /// Exports Githib Copilot token
+    CopilotToken {},
 }
