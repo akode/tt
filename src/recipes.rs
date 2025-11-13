@@ -1,3 +1,4 @@
+use anyhow::Result;
 use serde::{Deserialize, Serialize};
 use serde_norway;
 use std::fs::File;
@@ -18,11 +19,12 @@ struct Ingredient {
     qty: Option<String>,
 }
 
-pub fn read() -> () {
+pub fn read() -> Result<()> {
     let file =
         File::open("/Users/akode/dev/notes/rezepte/rezepte.yaml").expect("Unable to read file!");
     let rdr = BufReader::new(file);
 
     let recipes: Vec<Recipe> = serde_norway::from_reader(rdr).expect("Unable to parse YAML!");
     println!("{:?}", recipes);
+    Ok(())
 }
