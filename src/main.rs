@@ -5,6 +5,7 @@ mod errors;
 mod file_handling;
 mod pace;
 mod papers;
+mod recipes;
 
 use anyhow::Result;
 use clap::Parser;
@@ -31,6 +32,7 @@ fn main() -> Result<()> {
             println!("{}", pace);
         }
         cli::Commands::Daily {} => create_daily(),
+        cli::Commands::Recipes {} => recipes::read(),
     };
 
     Ok(())

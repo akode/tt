@@ -20,6 +20,7 @@ resolve-path = "0.1.0"
 scraper = "0.19.0"
 serde = { version = "1.0.197", features = ["derive"] }
 serde_derive = "1.0.197"
+serde_norway = "0.9.42"
 thiserror = "1.0.58"
 ureq = "2.9.6"
 url = "2.5.0"

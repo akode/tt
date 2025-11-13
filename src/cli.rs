@@ -23,4 +23,6 @@ pub enum Commands {
     Pace { pace_str: String },
     /// Create a new daily note
     Daily {},
+    /// Recipes
+    Recipes {},
 }
