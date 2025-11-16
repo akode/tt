@@ -31,7 +31,7 @@ fn main() -> Result<()> {
             println!("{}", &pace?);
             Ok(())
         }
-        cli::Commands::Daily {} => create_daily(),
+        cli::Commands::Daily { offset } => create_daily(offset),
         cli::Commands::Recipes {} => recipes::read(),
         cli::Commands::CopilotToken {} => env::export_copilot_token(),
         cli::Commands::SumDaily { md_file } => daily::sum_time_slots(md_file),

@@ -3,6 +3,7 @@ use askama::Template;
 use markdown::mdast::{List, ListItem, Node, Paragraph, Text};
 use markdown::{ParseOptions, to_mdast};
 use std::fs::File;
+use std::ops::Add;
 use std::path::PathBuf;
 
 use regex::Regex;
@@ -14,9 +15,10 @@ struct DailyTemplate<'a> {
 }
 
 /// Creates a daily note based on a template file.
-pub fn create_daily() -> Result<()> {
+pub fn create_daily(offset: Option<i64>) -> Result<()> {
     let today = chrono::Utc::now()
         .date_naive()
+        .add(chrono::TimeDelta::days(offset.unwrap_or(0_i64)))
         .format("%Y-%m-%d")
         .to_string();
     let daily = DailyTemplate { date: &today };

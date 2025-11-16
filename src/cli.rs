@@ -24,7 +24,10 @@ pub enum Commands {
     /// Convert a pace to km/h
     Pace { pace_str: String },
     /// Create a new daily note
-    Daily {},
+    Daily {
+        /// Offset for creating the daily note for another day
+        offset: Option<i64>,
+    },
     /// Recipes
     Recipes {},
     /// Sum hours from daily note
