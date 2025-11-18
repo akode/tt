@@ -8,6 +8,8 @@ mod pace;
 mod papers;
 mod recipes;
 
+use std::path::PathBuf;
+
 use anyhow::Result;
 use clap::Parser;
 use config::Config;
@@ -34,6 +36,12 @@ fn main() -> Result<()> {
         cli::Commands::Daily { offset } => create_daily(offset),
         cli::Commands::Recipes {} => recipes::read(),
         cli::Commands::CopilotToken {} => env::export_copilot_token(),
-        cli::Commands::SumDaily { md_file } => daily::sum_time_slots(md_file),
+        cli::Commands::SumDaily { md_file } => daily::sum_time_slots(md_file.unwrap_or({
+            let today = chrono::Utc::now()
+                .date_naive()
+                .format("%Y-%m-%d")
+                .to_string();
+            PathBuf::from(format!("{today}.md", today = today))
+        })),
     }
 }

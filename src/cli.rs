@@ -31,10 +31,7 @@ pub enum Commands {
     /// Recipes
     Recipes {},
     /// Sum hours from daily note
-    SumDaily {
-        #[arg(long)]
-        md_file: PathBuf,
-    },
+    SumDaily { md_file: Option<PathBuf> },
     /// Exports Githib Copilot token
     CopilotToken {},
 }
