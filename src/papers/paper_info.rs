@@ -51,7 +51,8 @@ fn get_arxiv_paper(arxiv_id: &str) -> Result<PaperInfo> {
     let html = ureq::get(abs_url.as_str())
         .call()
         .context("Unable to fetch page")?
-        .into_string()?;
+        .body_mut()
+        .read_to_string()?;
     let doc = scraper::Html::parse_document(&html);
     let title_selector = scraper::Selector::parse("meta[name='citation_title']").unwrap();
     let authors_selector = scraper::Selector::parse("meta[name='citation_author']").unwrap();

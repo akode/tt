@@ -36,38 +36,32 @@ pub fn sum_time_slots(file_name: PathBuf) -> Result<()> {
     let content = std::fs::read_to_string(path).expect("Unable to read daily note file");
     let mdast = to_mdast(&content, &ParseOptions::default()).expect("Unable to parse markdown");
     if let Some(nodes) = mdast.children() {
-        for node in nodes {
-            match node {
-                Node::List(List {
-                    children,
-                    position: _,
-                    ordered: _,
-                    start: _,
-                    spread: _,
-                }) => {
-                    let count = process_list_items(children);
-                    println!("{}", count);
-                }
-                _ => {}
-            }
-        }
+        let count = process_nodes(nodes);
+        println!("{}", count);
     }
     Ok(())
 }
 
 /// Recursively processes list items to find time slots and sum their durations.
-fn process_list_items(items: &Vec<Node>) -> f32 {
+fn process_nodes(items: &Vec<Node>) -> f32 {
     items.iter().fold(0.0, |acc, node| match node {
+        Node::List(List {
+            children,
+            position: _,
+            ordered: _,
+            start: _,
+            spread: _,
+        }) => acc + process_nodes(children),
         Node::ListItem(ListItem {
             children,
             position: _,
             spread: _,
             checked: _,
-        }) => acc + process_list_items(children),
+        }) => acc + process_nodes(children),
         Node::Paragraph(Paragraph {
             children,
             position: _,
-        }) => acc + process_list_items(children),
+        }) => acc + process_nodes(children),
         Node::Text(Text { value, position: _ }) => {
             let re =
                 Regex::new(r"(?<start>[0-9]{1,2}:[0-5][0-9]) - (?<end>[0-9]{1,2}:[0-5][0-9]):")
