@@ -1,6 +1,6 @@
 use anyhow::Result;
 use askama::Template;
-use markdown::mdast::{List, ListItem, Node, Paragraph, Text};
+use markdown::mdast::{Heading, List, ListItem, Node, Paragraph, Text};
 use markdown::{ParseOptions, to_mdast};
 use std::fs::File;
 use std::ops::Add;
@@ -62,6 +62,14 @@ fn process_nodes(items: &Vec<Node>) -> f32 {
             children,
             position: _,
         }) => acc + process_nodes(children),
+        Node::Heading(Heading {
+            children,
+            position: _,
+            depth: _,
+        }) => {
+            // TODO: Implement handling of the headings
+            acc + process_nodes(children)
+        }
         Node::Text(Text { value, position: _ }) => {
             let re =
                 Regex::new(r"(?<start>[0-9]{1,2}:[0-5][0-9]) - (?<end>[0-9]{1,2}:[0-5][0-9]):")

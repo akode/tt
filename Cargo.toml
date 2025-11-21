@@ -19,7 +19,7 @@ confy = { version = "2.0", features = ["toml"] }
 markdown = "1.0.0"
 regex = "1.10.4"
 resolve-path = "0.1.0"
-scraper = "0.19.0"
+scraper = "0.24.0"
 serde = { version = "1.0.197", features = ["derive"] }
 serde_derive = "1.0.197"
 serde_json = "1.0.145"
