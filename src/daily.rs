@@ -2,9 +2,11 @@ use anyhow::Result;
 use askama::Template;
 use markdown::mdast::{Heading, List, ListItem, Node, Paragraph, Text};
 use markdown::{ParseOptions, to_mdast};
+use serde::Deserialize;
 use std::fs::File;
 use std::ops::Add;
 use std::path::PathBuf;
+use yaml_front_matter::{Document, YamlFrontMatter};
 
 use regex::Regex;
 
@@ -12,6 +14,11 @@ use regex::Regex;
 #[template(path = "daily.md")]
 struct DailyTemplate<'a> {
     date: &'a str,
+}
+
+#[derive(Deserialize)]
+struct Frontmatter {
+    date: Option<String>,
 }
 
 /// Creates a daily note based on a template file.
@@ -34,7 +41,9 @@ pub fn create_daily(offset: Option<i64>) -> Result<()> {
 pub fn sum_time_slots(file_name: PathBuf) -> Result<()> {
     let path = PathBuf::from(file_name);
     let content = std::fs::read_to_string(path).expect("Unable to read daily note file");
-    let mdast = to_mdast(&content, &ParseOptions::default()).expect("Unable to parse markdown");
+    let document: Document<Frontmatter> = YamlFrontMatter::parse::<Frontmatter>(&content).unwrap();
+    let mdast =
+        to_mdast(&document.content, &ParseOptions::default()).expect("Unable to parse markdown");
     if let Some(nodes) = mdast.children() {
         let count = process_nodes(nodes);
         println!("{}", count);
