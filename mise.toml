@@ -1,0 +1,6 @@
+[tools]
+rust = "latest"
+
+[tasks.install]
+description = "Build and install"
+run = "cargo install --path ."

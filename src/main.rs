@@ -8,32 +8,28 @@ mod pace;
 mod papers;
 mod recipes;
 
-use std::path::PathBuf;
-
 use anyhow::Result;
 use clap::Parser;
-use config::Config;
 use daily::create_daily;
 use pace::Pace;
 use papers::store_paper;
 
+use crate::config::AppConfig;
+
 fn main() -> Result<()> {
-    let config: Config = confy::load("tt", None)?;
-    println!(
-        "{}: {}",
-        confy::get_configuration_file_path("tt", None)?.display(),
-        config.obsidian_vault_path.display()
-    );
+    let config = AppConfig::load().expect("Failed to load configuration");
+    dbg!(config.clone());
+
     let cli = cli::Cli::parse();
 
     match cli.cmd {
-        cli::Commands::Paper { url, source } => store_paper(url, source, config),
+        cli::Commands::Paper { url, source } => store_paper(url, source, config.notes),
         cli::Commands::Pace { pace_str } => {
             let pace = Pace::from_str(pace_str.as_str());
             println!("{}", &pace?);
             Ok(())
         }
-        cli::Commands::Daily { offset } => create_daily(offset),
+        cli::Commands::Daily { offset } => create_daily(config.notes.daily_note_path(), offset),
         cli::Commands::Recipes {} => recipes::read(),
         cli::Commands::CopilotToken {} => env::export_copilot_token(),
         cli::Commands::SumDaily { md_file } => daily::sum_time_slots(md_file.unwrap_or({
@@ -41,7 +37,10 @@ fn main() -> Result<()> {
                 .date_naive()
                 .format("%Y-%m-%d")
                 .to_string();
-            PathBuf::from(format!("{today}.md", today = today))
+            config
+                .notes
+                .daily_note_path()
+                .join(format!("{today}.md", today = today))
         })),
     }
 }

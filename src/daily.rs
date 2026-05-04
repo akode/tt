@@ -22,14 +22,14 @@ struct Frontmatter {
 }
 
 /// Creates a daily note based on a template file.
-pub fn create_daily(offset: Option<i64>) -> Result<()> {
+pub fn create_daily(path: PathBuf, offset: Option<i64>) -> Result<()> {
     let today = chrono::Utc::now()
         .date_naive()
         .add(chrono::TimeDelta::days(offset.unwrap_or(0_i64)))
         .format("%Y-%m-%d")
         .to_string();
     let daily = DailyTemplate { date: &today };
-    let path = PathBuf::from(format!("{today}.md", today = today));
+    let path = path.join(PathBuf::from(format!("{today}.md", today = today)));
     let mut file = File::create_new(path).expect("Unable to create daily note file");
     daily
         .write_into(&mut file)

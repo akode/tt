@@ -2,7 +2,7 @@ mod arxiv;
 mod markdown;
 mod paper_info;
 
-use crate::{config::Config, file_handling::fetch_file};
+use crate::{config::NotesConfig, file_handling::fetch_file};
 use anyhow::Result;
 use arxiv::ArxivPaper;
 use askama::Template;
@@ -23,7 +23,7 @@ fn determine_paper_source(url: &Url) -> Option<PaperSource> {
     }
 }
 
-pub fn store_paper(url: Url, source: Option<PaperSource>, config: Config) -> Result<()> {
+pub fn store_paper(url: Url, source: Option<PaperSource>, config: NotesConfig) -> Result<()> {
     let paper_source: Option<PaperSource> = match (source, determine_paper_source(&url)) {
         (Some(source), _) => Some(source),
         (None, Some(source)) => Some(source),
@@ -40,7 +40,7 @@ pub fn store_paper(url: Url, source: Option<PaperSource>, config: Config) -> Res
             .obsidian_attachments_path()
             .join(paper_info.pdf_file_name());
         let annotation_path = config
-            .obsidian_attachments_dir()
+            .obsidian_attachments_path()
             .join(paper_info.pdf_file_name());
 
         let template = PaperTemplate::new(&paper_info, annotation_path.to_str().unwrap());
